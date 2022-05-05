@@ -73,15 +73,7 @@ fun Fragment.handleApiError(
             "Veuillez vérifier votre accès au réseau",
             retry
         )
-        /*
-        failure.errorCode == 401 -> {
-            if (this is LoginFragment) {
-                requireView().snackbar("You've entered incorrect email or password")
-            } else {
-                (this as BaseFragment<*, *, *>).logout()
-            }
-        }
-        */
+
         else -> {
             val error = failure.errorBody?.string().toString()
             requireView().snackbarLengthIndefinite(error)
@@ -141,8 +133,6 @@ fun Date.formatToPattern(pattern: String = "d MMM yyyy HH:mm:ss") : String{
     val sdfDate = SimpleDateFormat(pattern, Locale.getDefault())
 
     return sdfDate.format(this)
-//    val current: Locale = getResources().getConfiguration().locale
-//    return NumberFormat.getInstance(Locale.getDefault()).format(this)
 }
 
 
@@ -150,30 +140,6 @@ fun Context.runningOnTablet() : Boolean{
     val manager = applicationContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     return (Objects.requireNonNull(manager).phoneType == TelephonyManager.PHONE_TYPE_NONE)
 }
-
-//
-//fun List<LineItem>.toLineItemWithTaxes(): List<LineItemWithTaxes> {
-//    return this.map {
-//        LineItemWithTaxes(it, it.line_taxes)
-//    }
-//}
-//
-//
-//fun List<LineItemWithTaxes>.toLineItem(): List<LineItem> {
-//    return this.map {
-//        LineItem(it.lineItem, it.lineTaxes)
-//    }
-//}
-//
-//fun LineItemWithTaxes.toLineItem(): LineItem {
-//    return LineItem(this.lineItem, this.qte.toFloat(), this.lineTaxes)
-//}
-//
-//fun LineItem.toLineItemWithTaxes(): LineItemWithTaxes {
-//    return LineItemWithTaxes(this, this.line_taxes)
-//}
-
-
 
 inline fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
     var sum = 0L
