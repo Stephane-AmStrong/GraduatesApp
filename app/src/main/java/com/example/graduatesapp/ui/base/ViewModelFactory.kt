@@ -10,7 +10,7 @@ import java.lang.IllegalArgumentException
 class ViewModelFactory(
     private val repository: BaseRepository
 ): ViewModelProvider.NewInstanceFactory() {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when{
             modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(repository as MainRepository) as T
             else -> throw IllegalArgumentException("MainViewModel Not Found")

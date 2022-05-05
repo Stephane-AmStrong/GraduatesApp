@@ -23,7 +23,7 @@
 
     <style name="Theme.GraduatesApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Theme.GraduatesApp.DialogFragment.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.GraduatesApp.DialogFragment.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Theme.GraduatesApp.DialogFragment.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 

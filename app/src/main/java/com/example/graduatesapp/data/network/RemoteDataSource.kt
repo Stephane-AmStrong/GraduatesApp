@@ -9,6 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RemoteDataSource {
     companion object {
+        //http://fruitizzadmin-001-site6.gtempurl.com/api/v1/Dimplomas
+        //http://fruitizzadmin-001-site6.gtempurl.com/api/v1/diplomas
         const val BASE_URL = "http://fruitizzadmin-001-site6.gtempurl.com/api/v1/"
 
         private val gson = GsonBuilder()
