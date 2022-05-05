@@ -2,7 +2,7 @@ package com.example.graduatesapp.data.models
 
 import java.util.*
 
-data class Dimploma(
+data class Diploma(
     var name: String,
     var description: String?,
 ) {

@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RemoteDataSource {
     companion object {
-        const val BASE_URL = "http://192.168.8.100:60500/api/"
+        const val BASE_URL = "http://fruitizzadmin-001-site6.gtempurl.com/api/v1/"
 
         private val gson = GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")

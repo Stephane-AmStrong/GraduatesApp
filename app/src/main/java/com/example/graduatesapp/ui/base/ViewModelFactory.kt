@@ -2,7 +2,9 @@ package com.example.graduatesapp.ui.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.graduatesapp.MainViewModel
 import com.example.graduatesapp.data.repositories.BaseRepository
+import com.example.graduatesapp.data.repositories.MainRepository
 import java.lang.IllegalArgumentException
 
 class ViewModelFactory(
@@ -10,9 +12,8 @@ class ViewModelFactory(
 ): ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when{
-            modelClass.isAssignableFrom(AuthViewModel::class.java) -> AuthViewModel(repository as AuthRepository) as T
             modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(repository as MainRepository) as T
-            else -> throw IllegalArgumentException("ViewModel Not Found")
+            else -> throw IllegalArgumentException("MainViewModel Not Found")
         }
     }
 }

@@ -7,7 +7,30 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!--  Menu  -->
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
+    <string name="menu_diploma">Diploma</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <!--  MainDialogActions  -->
+    <string name="action_cancel">Cancel</string>
+    <string name="action_create">Create</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_register">Register</string>
+
+    <!--  Hints  -->
+    <string name="hint_description">Description</string>
+    <string name="hint_first_Name">First Names</string>
+    <string name="hint_last_Name">Last Name</string>
+    <string name="hint_name">Name</string>
+
+    <!--  ErrorMessages  -->
+    <string name="msg_registration_success">registration was successful</string>
+    <string name="msg_deletion_success">registration was successful</string>
+
+    <!--  ErrorMessages  -->
+    <string name="error_field_required">field required</string>
+    <string name="msg_selection_error">please select a %1s before proceeding</string>
+    <string name="msg_registration_error">registration failed</string>
+
 </resources>

@@ -4,11 +4,11 @@ import java.util.*
 
 data class Graduate(
     var graduateAt: Date,
-    var dimplomaId: String,
+    var diplomaId: String,
     var studentId: String,
 ) {
     var id: String = "null"
-    var dimploma: Dimploma? = null
+    var diploma: Diploma? = null
     var student: Student? = null
     var createdAt: Date? = null
     var updatedAt: Date? = null
@@ -16,19 +16,19 @@ data class Graduate(
     constructor(
         id: String,
         graduateAt: Date,
-        dimplomaId: String,
+        diplomaId: String,
         studentId: String,
         createdAt: Date?,
         updatedAt: Date?,
-        dimploma: Dimploma?,
+        diploma: Diploma?,
         student: Student?
     ) : this(
         graduateAt,
-        dimplomaId,
+        diplomaId,
         studentId
     ) {
         this.id = id
-        this.dimploma = dimploma
+        this.diploma = diploma
         this.student = student
         this.createdAt = createdAt
         this.updatedAt = updatedAt

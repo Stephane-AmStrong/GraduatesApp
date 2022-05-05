@@ -1,3 +1,23 @@
 <resources>
     <dimen name="fab_margin">48dp</dimen>
+
+    <dimen name="normal">48dp</dimen>
+    <dimen name="normal_l">60dp</dimen>
+    <dimen name="normal_m">36dp</dimen>
+
+    <dimen name="mini">4dp</dimen>
+    <dimen name="small">8dp</dimen>
+    <dimen name="medium">16dp</dimen>
+    <dimen name="large">64dp</dimen>
+    <dimen name="extra_large">96dp</dimen>
+    <dimen name="extra_extra_large">112dp</dimen>
+
+    <!-- card dimens -->
+    <dimen name="row_business_item_width">256dp</dimen>
+
+
+    <!--    CustomDimens  -->
+    <dimen name="text_large">36sp</dimen>
+    <dimen name="text_medium">32sp</dimen>
+    <dimen name="text_small">26sp</dimen>
 </resources>
