@@ -1,9 +1,8 @@
 package com.example.graduatesapp.ui.student
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,8 +21,10 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.OnItemClickListener
 import com.xwray.groupie.OnItemLongClickListener
 
-class StudentFragment : BaseFragment<MainViewModel, FragmentStudentBinding, MainRepository>() {
+class StudentFragment : BaseFragment<MainViewModel, FragmentStudentBinding, MainRepository>(), SearchView.OnQueryTextListener {
 
+    private lateinit var students: List<Student>
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -37,6 +38,7 @@ class StudentFragment : BaseFragment<MainViewModel, FragmentStudentBinding, Main
 
             when (it) {
                 is Resource.Success -> {
+                    students = it.value
                     updateUI(it.value)
                 }
 
@@ -76,6 +78,14 @@ class StudentFragment : BaseFragment<MainViewModel, FragmentStudentBinding, Main
         inflater: LayoutInflater,
         container: ViewGroup?
     ) = FragmentStudentBinding.inflate(inflater, container, false)
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.with_search, menu)
+        val search = menu.findItem(R.id.action_search)
+        val searchView = search.actionView as SearchView
+        searchView.isSubmitButtonEnabled = true
+        searchView.setOnQueryTextListener(this)
+    }
 
 
     override fun getFragmentRepository(): MainRepository {
@@ -125,6 +135,24 @@ class StudentFragment : BaseFragment<MainViewModel, FragmentStudentBinding, Main
 
             else -> false
         }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null){
+            updateUI(students.filter { it.firstName.contains(query, true) || it.lastName.contains(query, true)})
+        }else{
+            updateUI(students)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null){
+            updateUI(students.filter { it.firstName.contains(newText, true) || it.lastName.contains(newText, true)})
+        }else{
+            updateUI(students)
+        }
+        return true
     }
 
 }
