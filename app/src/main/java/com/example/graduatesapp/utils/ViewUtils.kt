@@ -5,17 +5,23 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.OpenableColumns
 import android.telephony.TelephonyManager
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.graduatesapp.data.network.Resource
 import com.google.android.material.snackbar.Snackbar
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 
 
@@ -80,6 +86,28 @@ fun Fragment.handleApiError(
         }
     }
 }
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Long.toLocalDateTime() : LocalDateTime {
+    return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime()
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun LocalDateTime.toDate() : Date{
+    return Date.from(this
+        .atZone(ZoneId.systemDefault())
+        .toInstant())
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Date.toLocalDate() : LocalDate {
+    return this.toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
+}
+
+
 
 ///////:
 

@@ -20,20 +20,20 @@ class MainViewModel (
     //Diplomas
     private val _diploma: MutableLiveData<Resource<Diploma>> = MutableLiveData()
     private val _diplomas: MutableLiveData<Resource<List<Diploma>>> = MutableLiveData()
-    private val _diplomaSelected: MutableLiveData<Resource<Diploma?>> = MutableLiveData()
-    private val _diplomaRegistered: MutableLiveData<Resource<Diploma?>> = MutableLiveData()
+    private val _diplomaSelected: MutableLiveData<Resource<Diploma?>?> = MutableLiveData()
+    private val _diplomaRegistered: MutableLiveData<Resource<Diploma?>?> = MutableLiveData()
 
     //Graduates
     private val _graduate: MutableLiveData<Resource<Graduate>> = MutableLiveData()
     private val _graduates: MutableLiveData<Resource<List<Graduate>>> = MutableLiveData()
-    private val _graduateSelected: MutableLiveData<Resource<Graduate?>> = MutableLiveData()
-    private val _graduateRegistered: MutableLiveData<Resource<Graduate?>> = MutableLiveData()
+    private val _graduateSelected: MutableLiveData<Resource<Graduate?>?> = MutableLiveData()
+    private val _graduateRegistered: MutableLiveData<Resource<Graduate?>?> = MutableLiveData()
 
     //Students
     private val _student: MutableLiveData<Resource<Student>> = MutableLiveData()
     private val _students: MutableLiveData<Resource<List<Student>>> = MutableLiveData()
-    private val _studentSelected: MutableLiveData<Resource<Student?>> = MutableLiveData()
-    private val _studentRegistered: MutableLiveData<Resource<Student?>> = MutableLiveData()
+    private val _studentSelected: MutableLiveData<Resource<Student?>?> = MutableLiveData()
+    private val _studentRegistered: MutableLiveData<Resource<Student?>?> = MutableLiveData()
 
 
 
@@ -46,10 +46,10 @@ class MainViewModel (
     val diplomas: LiveData<Resource<List<Diploma>>>
         get() = _diplomas
 
-    val diplomaSelected: LiveData<Resource<Diploma?>>
+    val diplomaSelected: LiveData<Resource<Diploma?>?>
         get() = _diplomaSelected
 
-    val diplomaRegistered: LiveData<Resource<Diploma?>>
+    val diplomaRegistered: LiveData<Resource<Diploma?>?>
         get() = _diplomaRegistered
     
     
@@ -61,10 +61,10 @@ class MainViewModel (
     val graduates: LiveData<Resource<List<Graduate>>>
         get() = _graduates
 
-    val graduateSelected: LiveData<Resource<Graduate?>>
+    val graduateSelected: LiveData<Resource<Graduate?>?>
         get() = _graduateSelected
 
-    val graduateRegistered: LiveData<Resource<Graduate?>>
+    val graduateRegistered: LiveData<Resource<Graduate?>?>
         get() = _graduateRegistered
 
 
@@ -76,10 +76,10 @@ class MainViewModel (
     val students: LiveData<Resource<List<Student>>>
         get() = _students
 
-    val studentSelected: LiveData<Resource<Student?>>
+    val studentSelected: LiveData<Resource<Student?>?>
         get() = _studentSelected
 
-    val studentRegistered: LiveData<Resource<Student?>>
+    val studentRegistered: LiveData<Resource<Student?>?>
         get() = _studentRegistered
 
 
@@ -119,8 +119,8 @@ class MainViewModel (
     }
 
     fun releaseDiploma() = viewModelScope.launch {
-        //_diplomaRegistered.value = null
-        //_diplomaSelected.value = null
+        _diplomaRegistered.value = null
+        _diplomaSelected.value = null
     }
 
 
@@ -157,8 +157,8 @@ class MainViewModel (
     }
 
     fun releaseGraduate() = viewModelScope.launch {
-//        _graduateRegistered.value = null
-//        _graduateSelected.value = null
+        _graduateRegistered.value = null
+        _graduateSelected.value = null
     }
 
 
@@ -195,7 +195,7 @@ class MainViewModel (
     }
 
     fun releaseStudent() = viewModelScope.launch {
-//        _studentRegistered.value = null
-//        _studentSelected.value = null
+        _studentRegistered.value = null
+        _studentSelected.value = null
     }
 }

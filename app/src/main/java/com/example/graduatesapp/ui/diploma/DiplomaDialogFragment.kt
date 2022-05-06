@@ -18,7 +18,6 @@ import com.example.graduatesapp.utils.handleApiError
 import com.example.graduatesapp.utils.snackbar
 import com.example.graduatesapp.utils.toast
 import com.example.graduatesapp.utils.visible
-import kotlinx.coroutines.runBlocking
 
 class DiplomaDialogFragment : BaseBottomSheet<MainViewModel, DialogFragmentDimplomaBinding, MainRepository>() {
     private var currentDiploma: Diploma? = null

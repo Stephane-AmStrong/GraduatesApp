@@ -1,89 +1,167 @@
 package com.example.graduatesapp.ui.graduate
 
+import android.content.DialogInterface
 import android.os.Bundle
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
+import com.example.graduatesapp.MainViewModel
 import com.example.graduatesapp.R
+import com.example.graduatesapp.data.models.Graduate
+import com.example.graduatesapp.data.network.MainApi
+import com.example.graduatesapp.data.network.Resource
+import com.example.graduatesapp.data.repositories.MainRepository
 import com.example.graduatesapp.databinding.DialogFragmentGraduateBinding
-import com.example.graduatesapp.databinding.DialogFragmentGraduateItemBinding
+import com.example.graduatesapp.ui.base.BaseBottomSheet
+import com.example.graduatesapp.utils.handleApiError
+import com.example.graduatesapp.utils.snackbar
+import com.example.graduatesapp.utils.toast
+import com.example.graduatesapp.utils.visible
 
-// TODO: Customize parameter argument names
-const val ARG_ITEM_COUNT = "item_count"
+class GraduateDialogFragment : BaseBottomSheet<MainViewModel, DialogFragmentGraduateBinding, MainRepository>() {
+    private var currentGraduate: Graduate? = null
 
-class GraduateDialogFragment : BottomSheetDialogFragment() {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
-    private var _binding: DialogFragmentGraduateBinding? = null
+        binding.toolbar.setTitle(R.string.menu_graduate)
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        _binding = DialogFragmentGraduateBinding.inflate(inflater, container, false)
-        return binding.root
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.findViewById<RecyclerView>(R.id.list)?.layoutManager =
-            LinearLayoutManager(context)
-        activity?.findViewById<RecyclerView>(R.id.list)?.adapter =
-            arguments?.getInt(ARG_ITEM_COUNT)?.let { GraduateAdapter(it) }
-    }
-
-    private inner class ViewHolder internal constructor(binding: DialogFragmentGraduateItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        internal val text: TextView = binding.text
-    }
-
-    private inner class GraduateAdapter internal constructor(private val mItemCount: Int) :
-        RecyclerView.Adapter<ViewHolder>() {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-            return ViewHolder(
-                DialogFragmentGraduateItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-            )
-
+        binding.btnClose.setOnClickListener {
+            dismiss()
         }
 
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.text.text = position.toString()
-        }
 
-        override fun getItemCount(): Int {
-            return mItemCount
-        }
+        binding.toolbar.setOnMenuItemClickListener (toolbarItemClickListener)
+
+        binding.progressBar.visible(false)
+        viewModel.graduateSelected.observe(viewLifecycleOwner, Observer {
+            binding.progressBar.visible(it is Resource.Loading)
+
+            when (it){
+                is Resource.Success ->{
+                    updateUIGraduate(it.value)
+                }
+
+                is Resource.Failure ->{
+
+                }
+            }
+        })
+
+        viewModel.graduateRegistered.observe(viewLifecycleOwner, Observer {
+            binding.progressBar.visible(it is Resource.Loading)
+
+            when (it) {
+                is Resource.Success -> {
+                    dismiss()
+                    requireView().snackbar(resources.getString(R.string.msg_registration_success))
+                }
+
+                is Resource.Failure -> {
+                    handleApiError(it) { saveGraduate() }
+                }
+            }
+        })
+
+
     }
 
-    companion object {
+    private fun saveGraduate(){
+        with(binding){
+            if (txtName.text.toString().isEmpty()){
+                txtName.setError(resources.getString(R.string.error_field_required))
+            }
 
-        // TODO: Customize parameters
-        fun newInstance(itemCount: Int): GraduateDialogFragment =
-            GraduateDialogFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_ITEM_COUNT, itemCount)
+            if (txtName.text.toString().isEmpty()){
+                return
+            }
+
+            val name = binding.txtName.text.toString().trim()
+            val description = binding.txtDescription.text.toString().trim()
+
+            if(currentGraduate == null) {
+//                currentGraduate = Graduate(name,description)
+            }else{
+                currentGraduate.apply {
+//                    this?.name = name
+//                    this?.description = description
                 }
             }
 
+            viewModel.registerGraduate(currentGraduate!!)
+        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun deleteGraduate(){
+        if(currentGraduate != null && currentGraduate!!.id != "null") {
+            viewModel.deleteGraduate(currentGraduate!!)
+            dismiss()
+        }else{
+            toast(resources.getString(R.string.msg_selection_error, resources.getString(R.string.menu_graduate)))
+        }
     }
+
+    private fun clearToolbarMenu() {
+        binding.toolbar.menu.clear()
+    }
+
+    private fun showToolbarMenu() {
+        clearToolbarMenu()
+        binding.toolbar.inflateMenu(
+            R.menu.main
+        )
+    }
+
+    private val toolbarItemClickListener = Toolbar.OnMenuItemClickListener {
+        when (it.itemId) {
+            R.id.action_register -> {
+                saveGraduate()
+                true
+            }
+
+            R.id.action_delete -> {
+                deleteGraduate()
+                true
+            }
+
+            R.id.action_cancel -> {
+                dismiss()
+                true
+            }
+
+            else -> false
+        }
+    }
+
+
+    private fun updateUIGraduate(graduateSelected: Graduate?) {
+        this.currentGraduate = graduateSelected
+
+        with(binding){
+//            txtName.setText(currentGraduate?.name)
+        }
+    }
+
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        currentGraduate = null
+        viewModel.releaseGraduate()
+        viewModel.getGraduates()
+    }
+
+    override fun getViewModel() = MainViewModel::class.java
+
+    override fun getFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = DialogFragmentGraduateBinding.inflate(inflater, container, false)
+
+
+    override fun getFragmentRepository(): MainRepository {
+        val api = remoteDataSource.buildApi(MainApi::class.java, "token")
+        return MainRepository(api)
+    }
+
 }
